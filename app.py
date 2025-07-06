@@ -1,12 +1,14 @@
 # app.py
 import dash
-from dash import dcc, html
+from dash import dcc, html, Dash
 from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
+from flask import Flask
 
 # Initialize the Dash app
-app = dash.Dash(__name__)
+server = Flask(__name__)
+app = Dash(__name__, server=server)
 
 # Load your dataset
 df = pd.read_csv('cleaned_personality_dataset.csv')
