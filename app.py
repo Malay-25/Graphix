@@ -5,6 +5,7 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
 from flask import Flask
+import os
 
 # Initialize the Dash app
 server = Flask(__name__)
@@ -40,4 +41,6 @@ def update_graph(selected_value):
 
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=False)
+    port = int(os.environ.get("PORT", 8050))
+    app.run(debug=False, host="0.0.0.0", port=port)
+
