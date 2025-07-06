@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: personality-dashboard
+    name: Graphix
     env: python
     plan: free
     buildCommand: ""
