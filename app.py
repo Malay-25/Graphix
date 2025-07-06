@@ -1,0 +1,41 @@
+# app.py
+import dash
+from dash import dcc, html
+from dash.dependencies import Input, Output
+import plotly.express as px
+import pandas as pd
+
+# Initialize the Dash app
+app = dash.Dash(__name__)
+
+# Load your dataset
+df = pd.read_csv('cleaned_personality_dataset.csv')
+
+# Select only numeric columns for plotting
+numeric_cols = df.select_dtypes(include='number').columns.tolist()
+
+# Define your layout
+app.layout = html.Div([
+    html.H1('Personality Traits Data Dashboard'),
+    dcc.Dropdown(
+        id='selector',
+        options=[{'label': col, 'value': col} for col in numeric_cols],
+        value=numeric_cols[0],
+        style={'width': '50%'}
+    ),
+    dcc.Graph(id='graph')
+])
+
+# Define your callback
+@app.callback(
+    Output('graph', 'figure'),
+    [Input('selector', 'value')]
+)
+def update_graph(selected_value):
+    fig = px.histogram(df, x=selected_value, color='Personality', barmode='overlay', nbins=20,
+                       title=f'Distribution of {selected_value} by Personality')
+    return fig
+
+# Run the app
+if __name__ == '__main__':
+    app.run(debug=False)
